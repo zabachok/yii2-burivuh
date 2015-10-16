@@ -25,7 +25,14 @@ to the require section of your `composer.json` file.
 Usage
 -----
 
-Once the extension is installed, simply use it in your code by  :
+Add to you config file:
 
 ```php
-<?= \zabachok\burivuh\AutoloadExample::widget(); ?>```
+'modules' => [
+    ...
+    'burivuh' => [
+            'class' => 'zabachok\burivuh\Module',
+            'filesPath' => dirname(__DIR__) . '/data/burivuh',
+        ],
+]
+```

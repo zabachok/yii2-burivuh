@@ -1,6 +1,6 @@
 {
     "name": "zabachok/yii2-burivuh",
-    "description": "Simple markdown editor for yii2 using filesistem",
+    "description": "Simple markdown editor for yii2 using filesystem",
     "type": "yii2-extension",
     "keywords": ["documentation"," markdown"," module"],
     "license": "MIT",

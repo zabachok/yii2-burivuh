@@ -1,6 +1,6 @@
 Burivuh - markdown editor
 =========================
-Simple markdown editor for yii2 using filesistem
+Simple markdown editor for yii2 using filesystem
 
 Installation
 ------------

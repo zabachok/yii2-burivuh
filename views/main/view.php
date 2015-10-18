@@ -1,20 +1,22 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
+use zabachok\burivuh\assets\BurivuhAsset;
 
+BurivuhAsset::register($this);
+$this->registerJs('burivuh.view.init();');
 
 echo Breadcrumbs::widget([
     'links'    => isset($breadcrumbs) ? $breadcrumbs : [],
     'homeLink' => false,
 ]);
 ?>
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <?= Html::a('<i class="glyphicon glyphicon-pencil"></i> ', ['/burivuh/main/update', 'path' => $model->path], ['class' => 'btn btn-success btn-sm', 'tabindex'=>1])?>
-        <b><?= $model->name?></b>
-        <div class="pull-right">
-            <?= Html::a('<i class="glyphicon glyphicon-trash"></i> ', ['/burivuh/main/delete', 'path' => $model->path], ['class' => 'btn btn-warning btn-sm'])?>
-        </div>
+
+<?=$this->render('_panel', ['model'=>$model])?>
+<div class="row">
+    <div class="col-md-12">
+        <h2><?= Yii::t('burivuh', 'Hot keys')?></h2>
+        <span class="label label-default">Ctrl</span> + <span class="label label-default">e</span> - <?= Yii::t('burivuh', 'edit the document')?><br>
     </div>
-    <div class="panel-body"><?= $model->markdown?></div>
 </div>

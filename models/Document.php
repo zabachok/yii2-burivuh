@@ -12,9 +12,10 @@ class Document extends Model
     private $_path;
     private $_content;
     private $isNewRecord = true;
-    private $params;
-    public $name;
+    public $oldFilename;
+    public $filename;
     public $basePath;
+    public $filesPath;
     public $folder;
     public $timeAgo;
     public $prettySize;
@@ -22,11 +23,12 @@ class Document extends Model
     public $data         = [];
     public $stat;
     public $fileExists;
+    public $extension = '.md';
 
     public function init()
     {
         parent::init();
-        $this->basePath = \Yii::$app->getModule('burivuh')->filesPath;
+        $this->filesPath = \Yii::$app->getModule('burivuh')->filesPath;
     }
 
     public function rules()
@@ -60,15 +62,32 @@ class Document extends Model
         return $this->_path;
     }
 
+    public function setName($value)
+    {
+        $value = preg_replace('|[^\d\w_\-]|u', '', $value);
+        $this->filename = $value . '.' . $this->extension;
+    }
+
+    public function getName()
+    {
+        return basename($this->filename, '.' . $this->getExtension($this->filename));
+    }
+
+    public function getExtension($filepath)
+    {
+        return strtolower(substr(strrchr($filepath, '.'), 1));
+    }
+
     public function setPath($value)
     {
         if(!is_null($this->_path)) throw new \yii\base\ErrorException('You can not use this object for another document');
         $this->_path       = $value;
-        $this->basePath    = $this->basePath . $this->path;
+        $this->basePath    = $this->filesPath . $this->path;
         $this->isNewRecord = false;
-        $this->name        = end(explode('/', $this->path));
-        $len               = (mb_strlen($this->name, 'utf8') + 1) * -1;
-        $this->folder      = mb_substr($this->path, 0, $len, 'utf8');
+        $this->filename    = end(explode('/', $this->path));
+        $this->oldFilename = $this->filename;
+        $this->extension   = $this->getExtension($this->filename);
+        $this->folder      = dirname($this->path);
         $this->fileExists  = file_exists($this->basePath);
         if(!$this->fileExists) return;
         $this->stat        = stat($this->basePath);
@@ -98,14 +117,13 @@ class Document extends Model
 
     public function save()
     {
-        if($this->isNewRecord) $path = $this->folder . '/' . $this->name;
-        else $path = $this->path;
-        $path = $this->basePath . $path;
-
+        if(!$this->validate()) return false;
+        $path = $this->filesPath . $this->folder . '/' . $this->filename;
 
         $result = (bool) file_put_contents($path, $this->content);
         if($result)
         {
+            if(!$this->isNewRecord && $this->filename != $this->oldFilename) unlink($this->filesPath . $this->folder . '/' . $this->oldFilename);
             $this->isNewRecord = false;
             if($this->isNewRecord) $this->path        = $path;
         }
@@ -127,5 +145,5 @@ class Document extends Model
     {
         return Yii::$app->formatter->asRelativeTime($date);
     }
-    
+
 }

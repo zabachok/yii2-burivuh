@@ -22,7 +22,7 @@ or add
 to the require section of your `composer.json` file.
 
 
-Usage
+Activating
 -----
 
 Add to you config file:
@@ -36,3 +36,22 @@ Add to you config file:
         ],
 ]
 ```
+
+
+Usage
+-----
+Open url: http://your-site.com/burivuh  
+You can create, update and delete .md documents. All actions is available only for authorized users.
+
+
+## Hot keys
+### In list
+Arrow up and arrow down - moving up and down in list  
+Enter - open dir or file  
+Backspace - up in filesystem tree  
+### In view
+Ctrl + e - edit the document  
+### In write
+Ctrl + s - save document  
+Shift + Enter - new line  
+Tab - four spaces  

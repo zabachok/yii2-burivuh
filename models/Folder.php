@@ -2,6 +2,7 @@
 
 namespace zabachok\burivuh\models;
 
+use Yii;
 use yii\base\Model;
 use zabachok\burivuh\models\Document;
 
@@ -113,7 +114,7 @@ class Folder extends Model
         {
             $storage[] = $link;
             $links[] = [
-                'label' => $key == 0 ? 'Корень' : $link,
+                'label' => $key == 0 ? Yii::t('burivuh', 'Root') : $link,
                 'url' => ['/burivuh/main/index', 'path'=>  implode('/', $storage)],
 
             ];

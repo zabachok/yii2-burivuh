@@ -23,7 +23,7 @@ class Document extends Model
     public $data         = [];
     public $stat;
     public $fileExists;
-    public $extension = '.md';
+    public $extension = 'md';
 
     public function init()
     {
@@ -84,7 +84,8 @@ class Document extends Model
         $this->_path       = $value;
         $this->basePath    = $this->filesPath . $this->path;
         $this->isNewRecord = false;
-        $this->filename    = end(explode('/', $this->path));
+        $filenameArray = explode('/', $this->path);
+        $this->filename    = end($filenameArray);
         $this->oldFilename = $this->filename;
         $this->extension   = $this->getExtension($this->filename);
         $this->folder      = dirname($this->path);

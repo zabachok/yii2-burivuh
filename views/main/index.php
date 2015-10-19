@@ -6,8 +6,8 @@ use zabachok\burivuh\assets\BurivuhAsset;
 
 BurivuhAsset::register($this);
 $this->registerJs('burivuh.index.init();');
-
-$dirName = end(explode('/', $path));
+$pathArray = explode('/', $path);
+$dirName = end($pathArray);
 
 echo Breadcrumbs::widget([
     'links'    => isset($breadcrumbs) ? $breadcrumbs : [],

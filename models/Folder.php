@@ -84,7 +84,8 @@ class Folder extends Model
     {
         if(empty($this->_name))
         {
-            $this->_name = end(explode('/', $this->path));
+            $nameArray = explode('/', $this->path);
+            $this->_name = end($nameArray);
         }
         return $this->_name;
     }

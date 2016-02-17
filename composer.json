@@ -4,6 +4,7 @@
     "type": "yii2-extension",
     "keywords": ["documentation","markdown","module"],
     "license": "MIT",
+    "minimum-stability" : "dev",
     "authors": [
         {
             "name": "Daniil Romanov",

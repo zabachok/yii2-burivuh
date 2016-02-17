@@ -8,8 +8,8 @@ BurivuhAsset::register($this);
 $this->registerJs('burivuh.view.init();');
 
 echo Breadcrumbs::widget([
-    'links'    => isset($breadcrumbs) ? $breadcrumbs : [],
-    'homeLink' => false,
+    'links'    => $model->breadcrumbs,
+    'homeLink' => ['label' => Yii::t('burivuh', 'Root'), 'url' => '/burivuh/main/index'],
 ]);
 ?>
 

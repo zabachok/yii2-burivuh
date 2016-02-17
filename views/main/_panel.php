@@ -8,7 +8,7 @@ use yii\helpers\Html;
         Html::a(
             '<i class="glyphicon glyphicon-pencil"></i> ', [
             '/burivuh/main/update',
-            'path' => $model->path
+            'title' => $model->title
             ], [
             'class'    => 'btn btn-success btn-sm',
             'tabindex' => 1,
@@ -16,11 +16,12 @@ use yii\helpers\Html;
             'title'    => Yii::t('burivuh', 'Update')
         ])
         ?>
-        <b><?= $model->name?></b>
+        <b><?= $model->title?></b>
         <div class="pull-right">
             <?= $model->timeAgo?>
-            <?= Html::a('<i class="glyphicon glyphicon-trash"></i> ', ['/burivuh/main/delete', 'path' => $model->path], ['class' => 'btn btn-warning btn-sm', 'title' => Yii::t('burivuh', 'Delete')])?>
+            <?= Html::a('<i class="glyphicon glyphicon-list"></i> ', ['/burivuh/main/history', 'title' => $model->title], ['class' => 'btn btn-default btn-sm', 'title' => Yii::t('burivuh', 'Сhange history')])?>
+            <?= Html::a('<i class="glyphicon glyphicon-trash"></i> ', ['/burivuh/main/delete', 'title' => $model->title], ['class' => 'btn btn-warning btn-sm', 'title' => Yii::t('burivuh', 'Delete')])?>
         </div>
     </div>
-    <div class="panel-body"><?= $model->markdown?></div>
+    <div class="panel-body"><?= $model->content?></div>
 </div>

@@ -8,8 +8,8 @@ $form = ActiveForm::begin([
         'id' => 'update-form',
     ]);
 echo Breadcrumbs::widget([
-    'links'    => isset($breadcrumbs) ? $breadcrumbs : [],
-    'homeLink' => false,
+    'links'    => array_merge($model->getBreadcrumbs(1), [['label'=>'Редактирование']]),
+    'homeLink' => ['label' => Yii::t('burivuh', 'Root'), 'url' => '/burivuh/main/index'],
 ]);
 
 echo $this->render('_form',[

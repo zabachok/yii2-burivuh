@@ -5,7 +5,6 @@ use zabachok\burivuh\assets\BurivuhAsset;
 
 BurivuhAsset::register($this);
 $this->registerJs('burivuh.write.init();');
-
 ?>
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -13,12 +12,12 @@ $this->registerJs('burivuh.write.init();');
             <span class="input-group-btn">
                 <?= Html::submitButton('&nbsp;<i class="glyphicon glyphicon-hdd"></i>&nbsp;', ['class' => 'btn btn-success', 'tabindex' => 3, 'id' => 'burivuh-save-butoon', 'title'=>Yii::t('burivuh', 'Save')])?>
             </span>
-            <?= Html::activeTextInput($model, 'name', ['tabindex' => 3, 'class' => 'form-control', 'placeholder'=>Yii::t('burivuh', 'File name')])?>
+            <?= Html::activeTextInput($model, 'title', ['tabindex' => 3, 'class' => 'form-control', 'placeholder'=>Yii::t('burivuh', 'File name')])?>
             <span class="input-group-addon">
-                <?= $model->timeAgo?>
+                <?php // $model->timeAgo?>
             </span>
             <span class="input-group-btn">
-                <?= Html::a('&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;', ['/burivuh/main/view', 'path' => $model->path], ['class' => 'btn btn-warning', 'title'=>Yii::t('burivuh', 'View')])?>
+                <?= Html::a('&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;', ['/burivuh/main/view', 'title' => $model->title], ['class' => 'btn btn-warning', 'title'=>Yii::t('burivuh', 'View')])?>
             </span>
         </div>
         <?= Html::error($model, 'name')?>

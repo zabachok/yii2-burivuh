@@ -6,81 +6,71 @@ use zabachok\burivuh\assets\BurivuhAsset;
 
 BurivuhAsset::register($this);
 $this->registerJs('burivuh.index.init();');
-$pathArray = explode('/', $path);
-$dirName = end($pathArray);
 
 echo Breadcrumbs::widget([
-    'links'    => isset($breadcrumbs) ? $breadcrumbs : [],
-    'homeLink' => false,
+    'links'    => isset($category->breadcrumbs) ? $category->breadcrumbs : [],
+    'homeLink' => ['label' => Yii::t('burivuh', 'Root'), 'url' => '/burivuh/main/index'],
 ]);
 ?>
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <?= empty($dirName) ? Yii::t('burivuh', 'Root folder') : $dirName?>
+        <!--        --><? //= empty($dirName) ? Yii::t('burivuh', 'Root folder') : $dirName?>
+        <?= $category->title ?>
         <div class="btn-group pull-right">
-            <?= Html::a('<i class="glyphicon glyphicon-plus"></i>&nbsp;' . Yii::t('burivuh', 'Create document'), ['/burivuh/main/create', 'path' => $path], ['class' => 'btn btn-success btn-xs'])?>
-            <?= Html::a('<i class="glyphicon glyphicon-plus"></i>&nbsp;' . Yii::t('burivuh', 'Create folder'), ['/burivuh/main/create-folder', 'path' => $path], ['class' => 'btn btn-success btn-xs'])?>
-            <?= Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp;' . Yii::t('burivuh', 'Delete folder'), ['/burivuh/main/delete-folder', 'path' => $path], ['class' => 'btn btn-warning btn-xs'])?>
+            <?= Html::a('<i class="glyphicon glyphicon-plus"></i>&nbsp;' . Yii::t('burivuh', 'Create document'),
+                ['/burivuh/main/create', 'parent_id' => $category->category_id],
+                ['class' => 'btn btn-success btn-xs']) ?>
+            <?= Html::a('<i class="glyphicon glyphicon-plus"></i>&nbsp;' . Yii::t('burivuh', 'Create category'),
+                ['/burivuh/main/create-category', 'parent_id' => $category->category_id],
+                ['class' => 'btn btn-success btn-xs']) ?>
+            <?= Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp;' . Yii::t('burivuh', 'Delete category'),
+                ['/burivuh/main/delete-category', 'parent_id' => $category->category_id],
+                ['class' => 'btn btn-warning btn-xs']) ?>
         </div>
     </div>
 
     <table class="table table-striped dtable-bordered table-hover panel-body" id="burivuh-filelist">
         <?php
-        if(empty($folder)) echo '<tr class="warning"><td class="text-center">' . Yii::t('burivuh', 'Folder is empty') . '</td></tr>';
-        else
+        if (empty($categories) && empty($documents))
         {
-            foreach($folder as $key => $file)
+            echo '<tr class="warning"><td class="text-center">' . Yii::t('burivuh', 'Category is empty') . '</td></tr>';
+        } else
+        {
+            foreach ($categories as $key => $category)
             {
-                if($key == 0 && $backDir !== null)
-                {
-                    echo '<tr><td colspan="2">';
-                    echo Html::a('..', [
-                        '/burivuh/main/index',
-                        'path' => $backDir
-                        ], [
-                        'class' => 'burivuh-line-link',
-                    ]);
-                    echo '</tr></td>';
-                }
                 ?>
-                <tr class="<?= $file->isDir ? 'active' : ''?>">
+                <tr class="<?= $key == 0 ? 'active' : '' ?>">
                     <td>
-                        <?= $file->isDir ? '<i class="glyphicon glyphicon-folder-close"></i>' : '<i class="glyphicon glyphicon-file"></i>'?>
-                        <?php
-                        if($file->isDir)
-                        {
-                            echo Html::a($file->name, [
-                                '/burivuh/main/index',
-                                'path' => $file->path
-                                ], [
-                                'class' => 'burivuh-line-link',
-                            ]);
-                        }else
-                        {
-                            if($file->extension == 'md')
-                            {
-                                echo Html::a($file->filename, [
-                                    '/burivuh/main/view',
-                                    'path' => $file->path
-                                    ], [
-                                    'class' => 'burivuh-line-link',
-                                ]);
-                            }else
-                            {
-                                echo $file->filename;
-                            }
-                        }
+                        <i class="glyphicon glyphicon-folder-close"></i>
+                        <?=Html::a($category->title, [
+                            '/burivuh/main/index',
+                            'title' => $category->title,
+                        ], [
+                            'class' => 'burivuh-line-link',
+                        ]);
                         ?>
                     </td>
                     <td class="text-right">
-                        <?php
-                        if(!$file->isDir)
-                        {
-                            echo '<span class="text-muted">(' . $file->prettySize . ')</span> ';
-                            echo $file->timeAgo;
-                        }
-                        ?>
+                    </td>
+                </tr>
+                <?php
+            }
+            foreach ($documents as $document)
+            {
+                ?>
+                <tr class="<?= $key == 0 ? 'active' : '' ?>">
+                    <td>
+                        <i class="glyphicon glyphicon-file"></i>
+                        <?=Html::a($document->title, [
+                            '/burivuh/main/view',
+                            'title' => $document->title,
+                        ], [
+                            'class' => 'burivuh-line-link',
+                        ]);?>
+                    </td>
+                    <td class="text-right">
+                        <?=$document->timeAgo?>
                     </td>
                 </tr>
                 <?php
@@ -90,12 +80,13 @@ echo Breadcrumbs::widget([
     </table>
 </div>
 
-<?php if(!is_null($readme)) echo $this->render('_panel', ['model' => $readme])?>
+<?php if (!is_null($readme)) echo $this->render('_panel', ['model' => $readme]) ?>
 
 <div class="row">
     <div class="col-md-12">
-        <h2><?= Yii::t('burivuh', 'Hot keys')?></h2>
-        <span class="label label-default">&#8593;</span> or <span class="label label-default">&#8595;</span> - <?= Yii::t('burivuh', 'moving up and down in list')?><br>
-        <span class="label label-default">Enter</span> - <?= Yii::t('burivuh', 'open dir or file')?><br>
+        <h2><?= Yii::t('burivuh', 'Hot keys') ?></h2>
+        <span class="label label-default">&#8593;</span> or <span class="label label-default">&#8595;</span>
+        - <?= Yii::t('burivuh', 'moving up and down in list') ?><br>
+        <span class="label label-default">Enter</span> - <?= Yii::t('burivuh', 'open dir or file') ?><br>
     </div>
 </div>

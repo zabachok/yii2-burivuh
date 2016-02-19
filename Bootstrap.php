@@ -18,10 +18,10 @@ class Bootstrap implements BootstrapInterface
         // Add module URL rules.
         $app->urlManager->addRules(
             [
-                'burivuh/category/<title:.*>'                                            => 'burivuh/main/index',
-                'burivuh/doc/<title:.*>'                                                 => 'burivuh/main/view',
-                'burivuh/<action:create|delete|update|create-folder|delete-folder>/<title:.*>' => 'burivuh/main/<action>',
-                'burivuh'                                                                => 'burivuh/main/index',
+                \Yii::$app->getModule('burivuh')->route . '/category/<title:.*>'                                            => 'burivuh/main/index',
+                \Yii::$app->getModule('burivuh')->route . '/doc/<title:.*>'                                                 => 'burivuh/main/view',
+                \Yii::$app->getModule('burivuh')->route . '/<action:create|delete|update|create-folder|delete-folder>/<title:.*>' => 'burivuh/main/<action>',
+                \Yii::$app->getModule('burivuh')->route                                                                => 'burivuh/main/index',
             ], false
         );
 

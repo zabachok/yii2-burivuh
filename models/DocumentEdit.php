@@ -24,7 +24,8 @@ class DocumentEdit extends Document
         $this->historyTemp->attributes = [
             'title' => $this->title,
             'content'=>$this->content,
-            'user_id'=>\Yii::$app->user->id,
+//            'user_id'=>\Yii::$app->user->id,
+            'user_id'=>1,
         ];
         $this->content = Markdown::process($this->content, 'gfm');
         if(!$this->isNewRecord)

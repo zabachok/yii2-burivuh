@@ -23,4 +23,6 @@ return [
     'four spaces'                 => 'четыре пробела',
     'The document does not exist' => 'Документ не существует',
     'Сhange history'              => 'История изменений',
+    'Make this line a header'     => 'Сделать строку заголовком',
+    'Text formatting'             => 'Форматирование текста',
 ];

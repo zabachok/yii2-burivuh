@@ -19,20 +19,20 @@ class MainController extends \yii\web\Controller
 
     protected $path;
 
-    public function behaviors()
-    {
-        return array(
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-        );
-    }
+//    public function behaviors()
+//    {
+//        return array(
+//            'access' => [
+//                'class' => AccessControl::className(),
+//                'rules' => [
+//                    [
+//                        'allow' => true,
+//                        'roles' => ['@'],
+//                    ],
+//                ],
+//            ],
+//        );
+//    }
 
     public function beforeAction($action)
     {
@@ -138,7 +138,9 @@ class MainController extends \yii\web\Controller
         }
         $category = Category::findOne($model->category_id);
         $model->delete();
-        $this->redirect(['index', 'title' => $category->title]);
+        $redirect = ['index'];
+        if(!is_null($category)) $redirect['title'] = $category->title;
+        $this->redirect($redirect);
     }
 
     public function actionCreateCategory($parent_id)
@@ -201,7 +203,7 @@ class MainController extends \yii\web\Controller
         if (!is_null($previous))
         {
             $dmp = new DiffMatchPatch();
-            $diffs = $dmp->diff_main(Markdown::process($previous->content, 'gfm'), Markdown::process($model->content, 'gfm'), false);
+            $diffs = $dmp->diff_main($previous->content, $model->content, false);
         }
 
         return $this->render('diff', [
@@ -210,7 +212,6 @@ class MainController extends \yii\web\Controller
             'previous' => $previous,
             'diffs'    => $diffs,
         ]);
-
     }
 
 }

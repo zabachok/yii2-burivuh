@@ -66,4 +66,4 @@ Shift + Enter - new line
 Tab - four spaces
 
 **Text formatting**
-Ctrl + h - make this line a header
+Ctrl + h - make this line a header 

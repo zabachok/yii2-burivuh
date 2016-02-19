@@ -56,7 +56,7 @@ echo Breadcrumbs::widget([
                 </tr>
                 <?php
             }
-            foreach ($documents as $document)
+            foreach ($documents as $key => $document)
             {
                 ?>
                 <tr class="<?= $key == 0 ? 'active' : '' ?>">

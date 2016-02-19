@@ -20,7 +20,7 @@ echo Breadcrumbs::widget([
 <?php
 if(is_null($previous))
 {
-    echo 'Изменений нет';
+    echo '<span class="bg-success text-success">' . str_replace("\n", '<br>', $model->content) . '</span>';
     return;
 }
 ?>
@@ -30,6 +30,7 @@ if(is_null($previous))
 <?php
 foreach ($diffs as $diff)
 {
+    $diff[1] = str_replace("\n", '<br>', $diff[1]);
     $color = '';
     if($diff[0] == -1) $color = 'bg-danger text-danger';
     if($diff[0] == 1) $color = 'bg-success text-success';

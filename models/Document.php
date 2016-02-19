@@ -94,6 +94,6 @@ class Document extends \yii\db\ActiveRecord
 
     public static function getDB()
     {
-        return \Yii::$app->getModule('burivuh')->db;
+        return \Yii::$app->{\Yii::$app->getModule('burivuh')->db};
     }
 }

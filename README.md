@@ -63,4 +63,7 @@ Ctrl + e - edit the document
 ### In write
 Ctrl + s - save document  
 Shift + Enter - new line  
-Tab - four spaces  
+Tab - four spaces
+
+**Text formatting**
+Ctrl + h - make this line a header

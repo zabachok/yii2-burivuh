@@ -4,12 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 use zabachok\burivuh\assets\BurivuhAsset;
 
+$this->title = $model->title;
+
 BurivuhAsset::register($this);
 $this->registerJs('burivuh.view.init();');
 
 echo Breadcrumbs::widget([
     'links'    => $model->breadcrumbs,
-    'homeLink' => ['label' => Yii::t('burivuh', 'Root'), 'url' => '/burivuh/main/index'],
+    'homeLink' => ['label' => Yii::t('burivuh', 'Root'), 'url' => ['/burivuh/category/index']],
 ]);
 ?>
 

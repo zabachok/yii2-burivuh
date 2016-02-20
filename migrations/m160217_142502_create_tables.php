@@ -11,19 +11,19 @@ class m160217_142502_create_tables extends Migration
             'category_id'=>$this->integer()->notNull(),
             'title'=>$this->string(255)->notNull(),
             'content'=>$this->text(),
-            'created_id'=>$this->dateTime(),
-            'updated_id'=>$this->dateTime(),
+            'created_at'=>$this->dateTime(),
+            'updated_at'=>$this->dateTime(),
         ]);
         $this->createTable('burivuh_category', [
             'category_id' => $this->primaryKey(),
             'parent_id'=>$this->integer()->notNull(),
             'title'=>$this->string(255)->notNull(),
-            'created_id'=>$this->dateTime(),
+            'created_at'=>$this->dateTime(),
         ]);
         $this->createTable('burivuh_history', [
             'document_history_id' => $this->primaryKey(),
             'document_id'=>$this->integer()->notNull(),
-            'created_id'=>$this->dateTime(),
+            'created_at'=>$this->dateTime(),
             'title'=>$this->string(255)->notNull(),
             'content'=>$this->text(),
             'user_id'=>$this->integer(),

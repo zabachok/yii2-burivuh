@@ -116,39 +116,120 @@ burivuh = {
                 var parts = val.split("\n");
 
                 var toStart = 0;
-                for(var i = 0; i < parts.length; i++)
-                {
+                for (var i = 0; i < parts.length; i++) {
                     var part = parts[i];
                     var start = toStart;
                     var end = toStart + part.length;
 
-                    if(start <= p && p <= end)
-                    {
+                    if (start <= p && p <= end) {
                         var newPart = part;
 
-                        var match = part.match(/^(#*)/);
-                        var sharpLength = match[0].length;
+                        var match = part.match(/^(#*)( *)?/);
+
+                        var sharpLength = match[1].length;
                         var oldLength = newPart.length;
-                        if(sharpLength == 0) newPart = '#'+newPart;
-                        else{
-                            newPart = newPart.substr(sharpLength);
-                            if(sharpLength == 6) sharpLength = 1;
-                            else sharpLength++;
-                            for(var s = 1; s <= sharpLength; s++) newPart = '#' + newPart;
-                        }
+                        var spaceLength = typeof match[2] == 'undefined' ? 0 : match[2].length;
+
+                        newPart = newPart.substr(sharpLength + spaceLength);
+                        if (sharpLength >= 6) sharpLength = 1;
+                        else sharpLength++;
+                        newPart = ' ' + newPart;
+                        for (var s = 1; s <= sharpLength; s++) newPart = '#' + newPart;
+
                         id[0].setSelectionRange(start, end);
                         id[0].focus();
                         id.insertAtCaret(newPart);
                         var newLength = newPart.length;
                         var diff = newLength - oldLength;
-                        id[0].setSelectionRange(p+diff, p+diff);
+                        id[0].setSelectionRange(p + diff, p + diff);
                         return;
                     }
                     toStart += part.length + 1;
 
                 }
-            }
+            },
+            setBold: function () {
+                this.textAttributes('**');
+            },
+            setItalic: function () {
+                this.textAttributes('*');
+            },
+            setBoldItalic : function()
+            {
+                this.textAttributes('***');
+            },
+            textAttributes: function (string) {
+                if (typeof string == 'undefined') string = '**';
+                var length = string.length;
 
+                var id = $("#burivuh-content");
+                var val = id.val();
+                var start = id[0].selectionStart;
+                var end = id[0].selectionEnd;
+
+                var prev = val.substr(start - length, length);
+                var next = val.substr(end, length);
+                if (prev == string && next == string) {
+                    id[0].setSelectionRange(end, end + length);
+                    id.insertAtCaret('');
+
+                    id[0].setSelectionRange(start - length, start);
+                    id.insertAtCaret('');
+
+                    id[0].setSelectionRange(start - length, end - length);
+                } else {
+                    id[0].setSelectionRange(end, end);
+                    id.insertAtCaret(string);
+
+                    id[0].setSelectionRange(start, start);
+                    id.insertAtCaret(string);
+
+                    id[0].setSelectionRange(start + length, end + length);
+                }
+            },
+            setLink : function()
+            {
+                $('#burivuh-picture-form').slideUp();
+                var id = $("#burivuh-content");
+                var val = id.val();
+                var start = id[0].selectionStart;
+                var end = id[0].selectionEnd;
+                if(start != end)
+                {
+                    $('#burivuh-link-form').find('[name=label]').val(val.substr(start, end-start));
+                }else{
+                    $('#burivuh-link-form').find('[name=label]').val('');
+                }
+                $('#burivuh-link-form').slideToggle();
+
+            },
+            insertLink : function()
+            {
+                var id = $("#burivuh-content");
+                var start = id[0].selectionStart;
+                var end = id[0].selectionEnd;
+
+                var text = '[' + $('#burivuh-link-form').find('[name=label]').val() +
+                        '](' + $('#burivuh-link-form').find('[name=url]').val() + ')';
+                id[0].setSelectionRange(start, end);
+                id.insertAtCaret(text);
+                $('#burivuh-link-form').find('[name=label]').val('');
+                $('#burivuh-link-form').find('[name=url]').val('');
+                $('#burivuh-link-form').slideUp();
+            },
+            insertPicture: function()
+            {
+                var id = $("#burivuh-content");
+                var start = id[0].selectionStart;
+
+                var text = '![' + $('#burivuh-picture-form').find('[name=alt]').val() +
+                    '](' + $('#burivuh-picture-form').find('[name=url]').val() + ')';
+                id[0].setSelectionRange(start, start);
+                id.insertAtCaret(text);
+                $('#burivuh-picture-form').find('[name=alt]').val('');
+                $('#burivuh-picture-form').find('[name=url]').val('');
+                $('#burivuh-picture-form').slideUp();
+            }
         },
     },
     view: {

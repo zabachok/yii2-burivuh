@@ -1,9 +1,7 @@
-Burivuh - markdown editor
-=========================
+# Burivuh - markdown editor
 Simple markdown editor for yii2 for your notes
 
-Installation
-------------
+## Installation
 
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
 
@@ -27,8 +25,7 @@ php yii migrate --migrationPath=@vendor/zabachok/burivuh/migrations
 ```
 
 
-Activating
------
+## Activating
 
 Add to you config file:
 
@@ -45,10 +42,59 @@ Add to you config file:
     ],
 ]
 ```
+and to bootstrapping:
 
+```php
+'bootstrap'    => [..., 'burivuh'],
+```
 
-Usage
------
+## Options
+
+1. `db` - name of database component: 
+```php
+'burivuh'     => [
+        'class'     => 'zabachok\burivuh\Module',
+        'db'=>'db',
+    ...
+    ],
+```
+1. `usernameCallback` - anonymous function for generate username:
+```php
+'burivuh'     => [
+        'class'     => 'zabachok\burivuh\Module',
+        'usernameCallback'	=>function($user_id)
+            {
+                $user = \common\models\user\User::findIdentity($user_id);
+                return is_null($user) ? 'Undefined' : $user->username;
+            },
+    ...
+    ],
+```
+1. `route` - you can use custom route to this module. For example:
+```php
+'burivuh'     => [
+        'class'     => 'zabachok\burivuh\Module',
+        'route' => 'wiki',
+    ...
+    ],
+```
+It will be generate links like `example.com/wiki/doc/mydoc`
+1. `accessRules` - this option configuring [AccessControl::rules](http://www.yiiframework.com/doc-2.0/yii-filters-accesscontrol.html) component. For example:
+```php
+'burivuh'     => [
+        'class'     => 'zabachok\burivuh\Module',
+        'accessRules' => [
+                [
+                    'allow' => true,
+                    'roles' => ['?'],
+                ],
+            ],
+    ...
+    ],
+```
+
+## Usage
+
 Open url: http://your-site.com/burivuh  
 You can create, update and delete categories and documents. All actions is available only for authorized users.
 

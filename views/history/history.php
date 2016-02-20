@@ -1,23 +1,26 @@
 <?php
 use yii\widgets\Breadcrumbs;
 
-$this->title = 'Изменения документа "' . $model->title . '"';
+$this->title = Yii::t('burivuh', 'History of document: {title}', [
+    'title' => $model->title
+]);
+
 $breadcrumbs = array_merge($model->getBreadcrumbs(1), [
-    'label'=>'История',
+    'label'=>Yii::t('burivuh', 'History'),
 ]);
 echo Breadcrumbs::widget([
     'links'    => $breadcrumbs,
-    'homeLink' => ['label' => Yii::t('burivuh', 'Root'), 'url' => '/burivuh/main/index'],
+    'homeLink' => ['label' => Yii::t('burivuh', 'Root'), 'url' => ['/burivuh/category/index']],
 ]);
 $callback = \Yii::$app->getModule('burivuh')->usernameCallback;
 ?>
 <h1><?=$this->title?></h1>
 <table class="table">
     <tr>
-        <th>Дата</th>
-        <th>Заголовок</th>
-        <th>Изменения</th>
-        <th>Пользователь</th>
+        <th><?=Yii::t('burivuh', 'Date')?></th>
+        <th><?=Yii::t('burivuh', 'Title')?></th>
+        <th><?=Yii::t('burivuh', 'Diff')?></th>
+        <th><?=Yii::t('burivuh', 'User')?></th>
         <th></th>
     </tr>
     <?php
@@ -29,7 +32,7 @@ $callback = \Yii::$app->getModule('burivuh')->usernameCallback;
             <td><?=$item->title?></td>
             <td><?=$item->diff?></td>
             <td><?=$callback($item->user_id)?></td>
-            <td><?=\yii\helpers\Html::a('Смотреть разницу', ['/burivuh/main/diff', 'document_history_id'=>$item->document_history_id])?></td>
+            <td><?=\yii\helpers\Html::a(Yii::t('burivuh', 'See the difference'), ['/burivuh/history/diff', 'document_history_id'=>$item->document_history_id])?></td>
         </tr>
         <?php
     }

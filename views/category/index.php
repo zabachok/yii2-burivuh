@@ -6,27 +6,32 @@ use zabachok\burivuh\assets\BurivuhAsset;
 
 BurivuhAsset::register($this);
 $this->registerJs('burivuh.index.init();');
+$this->title = $category->category_id == 0 ? Yii::t('burivuh', 'Root') : $category->title;
 
 echo Breadcrumbs::widget([
     'links'    => isset($category->breadcrumbs) ? $category->breadcrumbs : [],
-    'homeLink' => ['label' => Yii::t('burivuh', 'Root'), 'url' => '/burivuh/main/index'],
+    'homeLink' => ['label' => Yii::t('burivuh', 'Root'), 'url' => ['/burivuh/category/index']],
 ]);
 ?>
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <!--        --><? //= empty($dirName) ? Yii::t('burivuh', 'Root folder') : $dirName?>
-        <?= $category->title ?>
+        <?= $this->title ?>
         <div class="btn-group pull-right">
             <?= Html::a('<i class="glyphicon glyphicon-plus"></i>&nbsp;' . Yii::t('burivuh', 'Create document'),
-                ['/burivuh/main/create', 'parent_id' => $category->category_id],
+                ['/burivuh/document/create', 'parent_id' => $category->category_id],
                 ['class' => 'btn btn-success btn-xs']) ?>
             <?= Html::a('<i class="glyphicon glyphicon-plus"></i>&nbsp;' . Yii::t('burivuh', 'Create category'),
-                ['/burivuh/main/create-category', 'parent_id' => $category->category_id],
+                ['/burivuh/category/create', 'parent_id' => $category->category_id],
                 ['class' => 'btn btn-success btn-xs']) ?>
-            <?= Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp;' . Yii::t('burivuh', 'Delete category'),
-                ['/burivuh/main/delete-category', 'parent_id' => $category->category_id],
-                ['class' => 'btn btn-warning btn-xs']) ?>
+            <?php
+            if ($category->category_id != 0)
+            {
+                echo Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp;' . Yii::t('burivuh', 'Delete category'),
+                    ['/burivuh/category/delete', 'category_id' => $category->category_id],
+                    ['class' => 'btn btn-warning btn-xs']);
+            }
+            ?>
         </div>
     </div>
 
@@ -43,10 +48,7 @@ echo Breadcrumbs::widget([
                 <tr class="<?= $key == 0 ? 'active' : '' ?>">
                     <td>
                         <i class="glyphicon glyphicon-folder-close"></i>
-                        <?=Html::a($category->title, [
-                            '/burivuh/main/index',
-                            'title' => $category->title,
-                        ], [
+                        <?= Html::a($category->title, $category->url, [
                             'class' => 'burivuh-line-link',
                         ]);
                         ?>
@@ -62,15 +64,12 @@ echo Breadcrumbs::widget([
                 <tr class="<?= $key == 0 ? 'active' : '' ?>">
                     <td>
                         <i class="glyphicon glyphicon-file"></i>
-                        <?=Html::a($document->title, [
-                            '/burivuh/main/view',
-                            'title' => $document->title,
-                        ], [
+                        <?= Html::a($document->title, $document->url, [
                             'class' => 'burivuh-line-link',
-                        ]);?>
+                        ]); ?>
                     </td>
                     <td class="text-right">
-                        <?=$document->timeAgo?>
+                        <?= $document->timeAgo ?>
                     </td>
                 </tr>
                 <?php

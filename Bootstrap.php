@@ -15,13 +15,19 @@ class Bootstrap implements BootstrapInterface
      */
     public function bootstrap($app)
     {
-        // Add module URL rules.
+        $route = \Yii::$app->getModule('burivuh')->route;
         $app->urlManager->addRules(
             [
-                \Yii::$app->getModule('burivuh')->route . '/category/<title:.*>'                                            => 'burivuh/main/index',
-                \Yii::$app->getModule('burivuh')->route . '/doc/<title:.*>'                                                 => 'burivuh/main/view',
-                \Yii::$app->getModule('burivuh')->route . '/<action:create|delete|update|create-folder|delete-folder>/<title:.*>' => 'burivuh/main/<action>',
-                \Yii::$app->getModule('burivuh')->route                                                                => 'burivuh/main/index',
+                $route . '/category/<category_id:\d+>-<title:.+>' => 'burivuh/category/index',
+                $route . '/doc/<document_id:\d+>-<title:.+>'      => 'burivuh/document/view',
+
+                $route . '/doc/<action:create|delete|update>/<document_id:\d+>-<title:.+>' => 'burivuh/document/<action>',
+                $route . '/category/create'                                                => 'burivuh/category/create',
+                $route . '/category/<action:delete>/<title:.+>'                            => 'burivuh/category/<action>',
+
+                $route . '/history/<document_id:\d+>-<title:.+>'   => 'burivuh/history/index',
+                $route . '/history/diff/<document_history_id:\d+>' => 'burivuh/history/diff',
+                $route                                             => 'burivuh/category/index',
             ], false
         );
 

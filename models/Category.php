@@ -5,6 +5,9 @@ namespace zabachok\burivuh\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
+use yii\helpers\Html;
+use yii\helpers\Url;
+
 /**
  * This is the model class for table "burivuh_category".
  *
@@ -32,8 +35,7 @@ class Category extends \yii\db\ActiveRecord
             ['created_at', 'safe'],
             ['title', 'string', 'max' => 255],
             ['parent_id', 'integer'],
-            ['title', 'match', 'pattern'=>'|[\w\d\-\ ]|u'],
-            ['title', 'unique']
+            ['title', 'match', 'pattern' => '|[\w\d\-\ ]|u'],
         ];
     }
 
@@ -44,8 +46,8 @@ class Category extends \yii\db\ActiveRecord
     {
         return [
             'category_id' => 'Category ID',
-            'title' => 'Title',
-            'created_at' => 'Created At',
+            'title'       => 'Title',
+            'created_at'  => 'Created At',
         ];
     }
 
@@ -53,30 +55,72 @@ class Category extends \yii\db\ActiveRecord
     {
         return [
             [
-                'class' => TimestampBehavior::className(),
+                'class'              => TimestampBehavior::className(),
                 'createdAtAttribute' => 'created_at',
                 'updatedAtAttribute' => false,
-                'value' => new Expression('NOW()'),
+                'value'              => new Expression('NOW()'),
             ],
         ];
     }
 
     public function getBreadcrumbs($iterator = 0)
     {
-        $breadcrumbs = ['label'=>$this->title,];
-        if($iterator != 0) $breadcrumbs['url'] = ['/burivuh/main/index', 'title'=>$this->title];
+        $breadcrumbs = ['label' => $this->title,];
+        if ($iterator != 0)
+        {
+            $breadcrumbs['url'] = $this->url;
+        }
 
-        if($this->parent_id == 0) return [$breadcrumbs];
-        else return array_merge($this->parent->getBreadcrumbs(++$iterator), [$breadcrumbs]);
+        if ($this->parent_id == 0)
+        {
+            return [$breadcrumbs];
+        } else
+        {
+            return array_merge($this->parent->getBreadcrumbs(++$iterator), [$breadcrumbs]);
+        }
     }
 
     public function getParent()
     {
-        return $this->hasOne(Category::className(), ['category_id' =>'parent_id']);
+        return $this->hasOne(Category::className(), ['category_id' => 'parent_id']);
     }
 
     public static function getDB()
     {
         return \Yii::$app->{\Yii::$app->getModule('burivuh')->db};
+    }
+
+    public function getChildrenCategory()
+    {
+        return $this->hasMany(Category::className(), ['parent_id' => 'category_id']);
+    }
+
+    public function getDocuments()
+    {
+        return $this->hasMany(Document::className(), ['category_id' => 'category_id']);
+    }
+
+    public function getUrl()
+    {
+        return Url::toRoute([
+            '/burivuh/category/index',
+            'category_id' => $this->category_id,
+            'title'       => $this->title,
+        ]);
+    }
+
+    public function beforeDelete()
+    {
+        parent::beforeDelete();
+        foreach ($this->childrenCategory as $model)
+        {
+            $model->delete();
+        }
+        foreach ($this->documents as $model)
+        {
+            $model->delete();
+        }
+
+        return true;
     }
 }

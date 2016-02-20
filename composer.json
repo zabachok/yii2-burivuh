@@ -19,8 +19,5 @@
         "psr-4": {
             "zabachok\\burivuh\\": ""
         }
-    },
-    "extra": {
-        "bootstrap": "zabachok\\burivuh\\Bootstrap"
     }
 }

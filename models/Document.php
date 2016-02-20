@@ -6,6 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
 use zabachok\burivuh\models\History;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "burivuh_document".
@@ -38,7 +39,6 @@ class Document extends \yii\db\ActiveRecord
             [['created_at', 'updated_at'], 'safe'],
             [['title'], 'string', 'max' => 255],
             ['title', 'match', 'pattern'=>'|[\w\d\-\ ]|u'],
-            ['title', 'unique']
         ];
     }
 
@@ -84,16 +84,38 @@ class Document extends \yii\db\ActiveRecord
             ->orderBy('created_at DESC');
     }
 
+    public function getHistory()
+    {
+        return $this->hasMany(History::className(), ['document_id'=>'document_id'])
+            ->orderBy('created_at DESC');
+    }
+
     public function getBreadcrumbs($iterator = 0)
     {
         $breadcrumbs = ['label'=>$this->title,];
-        if($iterator != 0) $breadcrumbs['url'] = ['/burivuh/main/view', 'title'=>$this->title];
+        if($iterator != 0) $breadcrumbs['url'] = $this->url;
         if($this->category_id == 0) return [$breadcrumbs];
-        return array_merge($this->category->getBreadcrumbs($iterator), [$breadcrumbs]);
+        return array_merge($this->category->getBreadcrumbs(++$iterator), [$breadcrumbs]);
     }
 
     public static function getDB()
     {
         return \Yii::$app->{\Yii::$app->getModule('burivuh')->db};
+    }
+
+    public function getUrl()
+    {
+        return Url::toRoute([
+            '/burivuh/document/view',
+            'document_id' => $this->document_id,
+            'title'       => $this->title,
+        ]);
+    }
+
+    public function afterDelete()
+    {
+        parent::afterDelete();
+        foreach($this->history as $model) $model->delete();
+        return true;
     }
 }

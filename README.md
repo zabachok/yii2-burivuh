@@ -1,5 +1,5 @@
-# Burivuh - markdown editor
-Simple markdown editor for yii2 for your notes
+# Burivuh - notepad with markdown editor
+Simple notepad with markdown editor for yii2
 
 ## Installation
 
@@ -34,11 +34,6 @@ Add to you config file:
     ...
     'burivuh'     => [
         'class'     => 'zabachok\burivuh\Module',
-        'db'=>'db', //db component
-        'usernameCallback' => function($user_id){
-            return $user_id;
-        }, //callback to print username
-        'route' => 'burivuh', //url to module
     ],
 ]
 ```

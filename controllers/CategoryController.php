@@ -76,6 +76,24 @@ class CategoryController extends Controller
         ]);
     }
 
+    public function actionUpdate($category_id)
+    {
+        $model = Category::findOne($category_id);
+        if (is_null($model))
+        {
+            throw new \yii\web\HttpException(404, Yii::t('burivuh', 'The category does not exist'));
+        }
+        if ($model->load(Yii::$app->request->post()) && $model->save())
+        {
+            $this->redirect($model->url);
+        }
+        $parent = Category::findOne($model->parent_id);
+        return $this->render('update', [
+            'model'=>$model,
+            'parent' => $parent,
+        ]);
+    }
+
     public function actionDelete($category_id)
     {
         $model = Category::findOne($category_id);

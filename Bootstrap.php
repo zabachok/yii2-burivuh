@@ -23,7 +23,7 @@ class Bootstrap implements BootstrapInterface
 
                 $route . '/doc/<action:create|delete|update>/<document_id:\d+>-<title:.+>' => 'burivuh/document/<action>',
                 $route . '/category/create'                                                => 'burivuh/category/create',
-                $route . '/category/<action:delete>/<title:.+>'                            => 'burivuh/category/<action>',
+                $route . '/category/<action:delete|update>/<category_id:\d+>-<title:.+>'   => 'burivuh/category/<action>',
 
                 $route . '/history/<document_id:\d+>-<title:.+>'   => 'burivuh/history/index',
                 $route . '/history/diff/<document_history_id:\d+>' => 'burivuh/history/diff',

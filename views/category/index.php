@@ -16,6 +16,8 @@ echo Breadcrumbs::widget([
 
 <div class="panel panel-default">
     <div class="panel-heading">
+        <?= $category->category_id == 0 ? '' : Html::a('<i class="fa fa-pencil"></i>',
+            ['/burivuh/category/update', 'category_id' => $category->category_id, 'title' => $category->title]) ?>
         <?= $this->title ?>
         <div class="btn-group pull-right">
             <?= Html::a('<i class="glyphicon glyphicon-plus"></i>&nbsp;' . Yii::t('burivuh', 'Create document'),
@@ -79,7 +81,7 @@ echo Breadcrumbs::widget([
     </table>
 </div>
 
-<?php if (!is_null($readme)) echo $this->render('_panel', ['model' => $readme]) ?>
+<?php if (!is_null($readme)) echo $this->render('/document/_panel', ['model' => $readme]) ?>
 
 <div class="row">
     <div class="col-md-12">

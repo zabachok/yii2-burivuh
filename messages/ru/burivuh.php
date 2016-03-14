@@ -45,4 +45,6 @@ return [
     'Remove category "{title}"?'                                              => 'Удалить категорию "{title}"?',
     '<b>Attention!</b> All categories and documents in them will be deleted!' => '<b>Внимание!</b> Будут удалены все подкатегории и документы в них!',
     'Delete Category: {title}'                                                => 'Удаление категории {title}',
+    'Update category' => 'Изменение категории',
+    'Update category {title}' => 'Изменение категории {title}',
 ];

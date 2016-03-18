@@ -108,3 +108,17 @@ Tab - four spaces
 
 **Text formatting**
 Ctrl + h - make this line a header
+
+## Screenshots
+Directory:
+![](http://zabachok.net/data/burivuh/root.jpg)
+View document:
+![](http://zabachok.net/data/burivuh/view.jpg)
+Edit document:
+![](http://zabachok.net/data/burivuh/edit.jpg)
+Delete document:
+![](http://zabachok.net/data/burivuh/delete.jpg)
+History:
+![](http://zabachok.net/data/burivuh/history.jpg)
+Diff of document:
+![](http://zabachok.net/data/burivuh/diff.jpg)

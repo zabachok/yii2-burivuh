@@ -1,5 +1,6 @@
 # Burivuh - notepad with markdown editor
 Simple notepad with markdown editor for yii2
+[Все это на русском](https://zabachok.net/repositories/burivuh)
 
 ## Installation
 
@@ -114,24 +115,24 @@ Ctrl + h - make this line a header
 
 Directory
 
-![Directory](http://zabachok.net/data/burivuh/root.jpg)
+![Directory](https://zabachok.net/data/files/burivuh/root.jpg)
 
 View document
 
-![View document](http://zabachok.net/data/burivuh/view.jpg)
+![View document](https://zabachok.net/data/files/burivuh/view.jpg)
 
 Edit document
 
-![Edit document](http://zabachok.net/data/burivuh/edit.jpg)
+![Edit document](https://zabachok.net/data/files/burivuh/edit.jpg)
 
 Delete document
 
-![](http://zabachok.net/data/burivuh/delete.jpg)
+![](https://zabachok.net/data/files/burivuh/delete.jpg)
 
 History
 
-![](http://zabachok.net/data/burivuh/history.jpg)
+![](https://zabachok.net/data/files/burivuh/history.jpg)
 
 Diff of document
 
-![](http://zabachok.net/data/burivuh/diff.jpg)
+![](https://zabachok.net/data/files/burivuh/diff.jpg)

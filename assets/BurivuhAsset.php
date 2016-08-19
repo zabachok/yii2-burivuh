@@ -6,7 +6,7 @@ use yii\web\AssetBundle;
 
 class BurivuhAsset extends AssetBundle
 {
-    public $sourcePath = '@zabachok/burivuh/assets/';
+    public $sourcePath = '@zabachok/burivuh/assets';
     public $js = [
         'burivuh.js',
     ];

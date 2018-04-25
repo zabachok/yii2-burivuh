@@ -21,10 +21,10 @@ echo Breadcrumbs::widget([
         <?= $this->title ?>
         <div class="btn-group pull-right">
             <?= Html::a('<i class="glyphicon glyphicon-plus"></i>&nbsp;' . Yii::t('burivuh', 'Create document'),
-                ['/burivuh/document/create', 'parent_id' => $category->category_id],
+                ['/burivuh/document/create', 'parentId' => $category->category_id],
                 ['class' => 'btn btn-success btn-xs']) ?>
             <?= Html::a('<i class="glyphicon glyphicon-plus"></i>&nbsp;' . Yii::t('burivuh', 'Create category'),
-                ['/burivuh/category/create', 'parent_id' => $category->category_id],
+                ['/burivuh/category/create', 'parentId' => $category->category_id],
                 ['class' => 'btn btn-success btn-xs']) ?>
             <?php
             if ($category->category_id != 0) {

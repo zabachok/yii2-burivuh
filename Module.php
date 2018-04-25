@@ -2,7 +2,9 @@
 
 namespace zabachok\burivuh;
 
-class Module extends \yii\base\Module
+use yii\base\Module as BaseModule;
+
+class Module extends BaseModule
 {
     /**
      * @inheritdoc
@@ -19,6 +21,9 @@ class Module extends \yii\base\Module
      */
     public $db = 'db';
 
+    /**
+     * @var callable Function getting user name
+     */
     public $usernameCallback;
 
     /**
@@ -26,11 +31,14 @@ class Module extends \yii\base\Module
      */
     public $route = 'burivuh';
 
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         if (is_null($this->usernameCallback)) {
-            $this->usernameCallback = function ($user_id) {
-                return $user_id;
+            $this->usernameCallback = function ($userId) {
+                return $userId;
             };
         }
     }

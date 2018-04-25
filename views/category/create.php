@@ -21,6 +21,7 @@ echo Breadcrumbs::widget([
 ?>
 
     <h1><?= $this->title ?></h1>
+
 <?php $form = ActiveForm::begin([
     'id' => 'create-form',
 ]);
@@ -28,7 +29,12 @@ echo Breadcrumbs::widget([
 <?= $form->errorSummary($model); ?>
     <div class="input-group">
         <?= Html::activeTextInput($model, 'title',
-            ['tabindex' => 1, 'class' => 'form-control', 'placeholder' => Yii::t('burivuh', 'Category name')]) ?>
+            [
+                'tabindex' => 1,
+                'class' => 'form-control',
+                'placeholder' => Yii::t('burivuh', 'Category name'),
+                'autofocus' => true
+            ]) ?>
         <span class="input-group-btn">
         <?= Html::submitButton(Yii::t('burivuh', 'Create'), ['class' => 'btn btn-success', 'tabindex' => 2]) ?>
     </span>

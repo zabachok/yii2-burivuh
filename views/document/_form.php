@@ -19,10 +19,13 @@ $this->registerJs('burivuh.write.init();');
             </span>
             <?= Html::activeTextInput($model, 'title',
                 ['tabindex' => 1, 'class' => 'form-control', 'placeholder' => Yii::t('burivuh', 'File name')]) ?>
+
+            <?php if(!$model->isNewRecord): ?>
             <span class="input-group-btn">
                 <?= Html::a('&nbsp;<i class="glyphicon glyphicon-eye-open"></i>&nbsp;', $model->url,
                     ['class' => 'btn btn-warning', 'title' => Yii::t('burivuh', 'View')]) ?>
             </span>
+            <?php endif; ?>
         </div>
         <?= Html::error($model, 'name') ?>
     </div>

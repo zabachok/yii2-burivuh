@@ -99,7 +99,7 @@ class Category extends \yii\db\ActiveRecord
     {
         return Url::toRoute([
             '/burivuh/category/index',
-            'category_id' => $this->category_id,
+            'id' => $this->category_id,
             'title' => $this->title,
         ]);
     }

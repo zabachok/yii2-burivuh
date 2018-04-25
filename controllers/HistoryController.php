@@ -2,27 +2,30 @@
 
 namespace zabachok\burivuh\controllers;
 
-
 use DiffMatchPatch\DiffMatchPatch;
 use Yii;
+use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 use zabachok\burivuh\models\Document;
-use zabachok\burivuh\models\Folder;
 use zabachok\burivuh\models\History;
 
 class HistoryController extends Controller
 {
-
-
-    public function actionIndex($title)
+    /**
+     * @param string $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    public function actionIndex(string $id)
     {
-        $model = Document::find()->where(['title' => $title])->one();
+        $model = Document::findOne($id);
         if (is_null($model)) {
-            throw new \yii\web\HttpException(404, Yii::t('burivuh', 'The document does not exist'));
+            throw new NotFoundHttpException(Yii::t('burivuh', 'The document does not exist'));
         }
         $list = History::find()
-            ->select('document_history_id, document_id, created_at, user_id, title, diff')
+            ->select(['document_history_id', 'document_id', 'created_at', 'user_id', 'title', 'diff'])
             ->where(['document_id' => $model->document_id])
-            ->orderBy('created_at DESC')
+            ->orderBy(['created_at' => SORT_DESC])
             ->all();
 
         return $this->render('history', [
@@ -31,17 +34,23 @@ class HistoryController extends Controller
         ]);
     }
 
-    public function actionDiff($document_history_id)
+    /**
+     * @param int $id
+     * @return string
+     * @throws NotFoundHttpException
+     */
+    public function actionDiff(int $id)
     {
-        $model = History::findOne($document_history_id);
+        $model = History::findOne($id);
         if (is_null($model)) {
-            throw new \yii\web\HttpException(404, Yii::t('burivuh', 'Record in the history does not exist'));
+            throw new NotFoundHttpException(Yii::t('burivuh', 'Record in the history does not exist'));
         }
+
         $document = Document::findOne($model->document_id);
         $previous = History::find()
             ->where(['document_id' => $model->document_id])
-            ->andWhere('created_at<:created_at', [':created_at' => $model->created_at])
-            ->orderBy('created_at DESC')
+            ->andWhere(['<', 'created_at', $model->created_at])
+            ->orderBy(['created_at' => SORT_DESC])
             ->limit(1)
             ->one();
 

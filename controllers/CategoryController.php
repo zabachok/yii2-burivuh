@@ -2,26 +2,31 @@
 
 namespace zabachok\burivuh\controllers;
 
-
 use Yii;
+use yii\web\Controller;
+use yii\web\HttpException;
+use yii\web\NotFoundHttpException;
 use zabachok\burivuh\models\Category;
 use zabachok\burivuh\models\Document;
-use zabachok\burivuh\models\Folder;
 use zabachok\burivuh\models\Home;
 
 class CategoryController extends Controller
 {
-
-    public function actionIndex($category_id = null)
+    /**
+     * @param integer|null $id
+     * @return mixed
+     * @throws HttpException
+     */
+    public function actionIndex(?int $id = null)
     {
-        if (is_null($category_id)) {
+        if (is_null($id)) {
             $category = new Home();
         } else {
-            $category = Category::findOne($category_id);
+            $category = Category::findOne($id);
         }
 
         if ($category->category_id != 0 && is_null($category)) {
-            throw new \yii\web\HttpException(404, Yii::t('burivuh', 'The category does not exist'));
+            throw new NotFoundHttpException(Yii::t('burivuh', 'The category does not exist'));
         }
 
         $categories = Category::find()
@@ -46,16 +51,22 @@ class CategoryController extends Controller
 
     }
 
-    public function actionCreate($parent_id)
+    /**
+     * @param int $parentId
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    public function actionCreate(int $parentId = 0)
     {
         $model = new Category();
-        $model->parent_id = $parent_id;
-        if ($parent_id == 0) {
+        $model->parent_id = $parentId;
+        
+        if ($parentId == 0) {
             $parent = new Home();
         } else {
-            $parent = Category::findOne($parent_id);
+            $parent = Category::findOne($parentId);
             if (is_null($parent)) {
-                throw new \yii\web\HttpException(404, Yii::t('burivuh', 'The category does not exist'));
+                throw new NotFoundHttpException(Yii::t('burivuh', 'The category does not exist'));
             }
         }
 
@@ -69,35 +80,52 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function actionUpdate($category_id)
+    /**
+     * @param int $id
+     * @return string
+     * @throws NotFoundHttpException
+     */
+    public function actionUpdate(int $id)
     {
-        $model = Category::findOne($category_id);
+        $model = Category::findOne($id);
         if (is_null($model)) {
-            throw new \yii\web\HttpException(404, Yii::t('burivuh', 'The category does not exist'));
+            throw new NotFoundHttpException(Yii::t('burivuh', 'The category does not exist'));
         }
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $this->redirect($model->url);
         }
+
         $parent = Category::findOne($model->parent_id);
+
         return $this->render('update', [
             'model' => $model,
             'parent' => $parent,
         ]);
     }
 
-    public function actionDelete($category_id)
+    /**
+     * @param int $id
+     * @return string
+     * @throws HttpException
+     */
+    public function actionDelete(int $id)
     {
-        $model = Category::findOne($category_id);
+        $model = Category::findOne($id);
         if (is_null($model)) {
-            throw new \yii\web\HttpException(404, Yii::t('burivuh', 'The category does not exist'));
+            throw new HttpException(404, Yii::t('burivuh', 'The category does not exist'));
         }
+
         if (isset($_POST['category_id'])) {
+            //TODO resolve that shit
             $parent = $model->parent;
+
             $model->delete();
             $redirect = ['index'];
             if (!is_null($parent)) {
                 $redirect = $parent->url;
             }
+
             $this->redirect($redirect);
         }
 
@@ -105,5 +133,4 @@ class CategoryController extends Controller
             'model' => $model,
         ]);
     }
-
 }

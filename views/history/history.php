@@ -33,7 +33,7 @@ $callback = \Yii::$app->getModule('burivuh')->usernameCallback;
             <td><?= $item->diff ?></td>
             <td><?= $callback($item->user_id) ?></td>
             <td><?= \yii\helpers\Html::a(Yii::t('burivuh', 'See the difference'),
-                    ['/burivuh/history/diff', 'document_history_id' => $item->document_history_id]) ?></td>
+                    ['/burivuh/history/diff', 'id' => $item->document_history_id]) ?></td>
         </tr>
         <?php
     }

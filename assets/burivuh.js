@@ -131,9 +131,12 @@ burivuh = {
                         var spaceLength = typeof match[2] == 'undefined' ? 0 : match[2].length;
 
                         newPart = newPart.substr(sharpLength + spaceLength);
-                        if (sharpLength >= 6) sharpLength = 1;
+                        if (sharpLength >= 6) sharpLength = 0;
                         else sharpLength++;
-                        newPart = ' ' + newPart;
+
+                        if (sharpLength > 0) {
+                            newPart = ' ' + newPart;
+                        }
                         for (var s = 1; s <= sharpLength; s++) newPart = '#' + newPart;
 
                         id[0].setSelectionRange(start, end);
@@ -259,7 +262,6 @@ burivuh = {
 
         },
         hotKeysInit: function () {
-
             $(window).bind('keydown', function (event) {
                 switch (event.keyCode) {
                     case 38://up
@@ -287,5 +289,4 @@ burivuh = {
             });
         }
     }
-
-}
+};

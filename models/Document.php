@@ -110,7 +110,7 @@ class Document extends \yii\db\ActiveRecord
     {
         return Url::toRoute([
             '/burivuh/document/view',
-            'document_id' => $this->document_id,
+            'id' => $this->document_id,
             'title' => $this->title,
         ]);
     }

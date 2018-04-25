@@ -3,7 +3,6 @@
 namespace zabachok\burivuh\models;
 
 use yii\helpers\Markdown;
-use zabachok\burivuh\models\History;
 
 class DocumentEdit extends Document
 {
@@ -23,13 +22,12 @@ class DocumentEdit extends Document
         $this->historyTemp = new History();
         $this->historyTemp->attributes = [
             'title' => $this->title,
-            'content'=>$this->content,
+            'content' => $this->content,
 //            'user_id'=>\Yii::$app->user->id,
-            'user_id'=>1,
+            'user_id' => 1,
         ];
         $this->content = Markdown::process($this->content, 'gfm');
-        if(!$this->isNewRecord)
-        {
+        if (!$this->isNewRecord) {
             $this->historyTemp->renderDiff($this->lastEdit);
         }
         return true;

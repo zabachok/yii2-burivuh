@@ -9,7 +9,7 @@ $this->registerJs('burivuh.index.init();');
 $this->title = $category->category_id == 0 ? Yii::t('burivuh', 'Root') : $category->title;
 
 echo Breadcrumbs::widget([
-    'links'    => isset($category->breadcrumbs) ? $category->breadcrumbs : [],
+    'links' => isset($category->breadcrumbs) ? $category->breadcrumbs : [],
     'homeLink' => ['label' => Yii::t('burivuh', 'Root'), 'url' => ['/burivuh/category/index']],
 ]);
 ?>
@@ -27,8 +27,7 @@ echo Breadcrumbs::widget([
                 ['/burivuh/category/create', 'parent_id' => $category->category_id],
                 ['class' => 'btn btn-success btn-xs']) ?>
             <?php
-            if ($category->category_id != 0)
-            {
+            if ($category->category_id != 0) {
                 echo Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp;' . Yii::t('burivuh', 'Delete category'),
                     ['/burivuh/category/delete', 'category_id' => $category->category_id],
                     ['class' => 'btn btn-warning btn-xs']);
@@ -39,13 +38,10 @@ echo Breadcrumbs::widget([
 
     <table class="table table-striped dtable-bordered table-hover panel-body" id="burivuh-filelist">
         <?php
-        if (empty($categories) && empty($documents))
-        {
+        if (empty($categories) && empty($documents)) {
             echo '<tr class="warning"><td class="text-center">' . Yii::t('burivuh', 'Category is empty') . '</td></tr>';
-        } else
-        {
-            foreach ($categories as $key => $category)
-            {
+        } else {
+            foreach ($categories as $key => $category) {
                 ?>
                 <tr class="<?= $key == 0 ? 'active' : '' ?>">
                     <td>
@@ -60,8 +56,7 @@ echo Breadcrumbs::widget([
                 </tr>
                 <?php
             }
-            foreach ($documents as $key => $document)
-            {
+            foreach ($documents as $key => $document) {
                 ?>
                 <tr class="<?= $key == 0 ? 'active' : '' ?>">
                     <td>

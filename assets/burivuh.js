@@ -154,8 +154,7 @@ burivuh = {
             setItalic: function () {
                 this.textAttributes('*');
             },
-            setBoldItalic : function()
-            {
+            setBoldItalic: function () {
                 this.textAttributes('***');
             },
             textAttributes: function (string) {
@@ -187,38 +186,34 @@ burivuh = {
                     id[0].setSelectionRange(start + length, end + length);
                 }
             },
-            setLink : function()
-            {
+            setLink: function () {
                 $('#burivuh-picture-form').slideUp();
                 var id = $("#burivuh-content");
                 var val = id.val();
                 var start = id[0].selectionStart;
                 var end = id[0].selectionEnd;
-                if(start != end)
-                {
-                    $('#burivuh-link-form').find('[name=label]').val(val.substr(start, end-start));
-                }else{
+                if (start != end) {
+                    $('#burivuh-link-form').find('[name=label]').val(val.substr(start, end - start));
+                } else {
                     $('#burivuh-link-form').find('[name=label]').val('');
                 }
                 $('#burivuh-link-form').slideToggle();
 
             },
-            insertLink : function()
-            {
+            insertLink: function () {
                 var id = $("#burivuh-content");
                 var start = id[0].selectionStart;
                 var end = id[0].selectionEnd;
 
                 var text = '[' + $('#burivuh-link-form').find('[name=label]').val() +
-                        '](' + $('#burivuh-link-form').find('[name=url]').val() + ')';
+                    '](' + $('#burivuh-link-form').find('[name=url]').val() + ')';
                 id[0].setSelectionRange(start, end);
                 id.insertAtCaret(text);
                 $('#burivuh-link-form').find('[name=label]').val('');
                 $('#burivuh-link-form').find('[name=url]').val('');
                 $('#burivuh-link-form').slideUp();
             },
-            insertPicture: function()
-            {
+            insertPicture: function () {
                 var id = $("#burivuh-content");
                 var start = id[0].selectionStart;
 

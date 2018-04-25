@@ -2,7 +2,6 @@
 
 namespace zabachok\burivuh\controllers;
 
-use Yii;
 use yii\filters\AccessControl;
 
 class Controller extends \yii\web\Controller

@@ -22,7 +22,7 @@ to the require section of your `composer.json` file.
 
 Run module migration:
 ```
-php yii migrate --migrationPath=@vendor/zabachok/burivuh/migrations
+php yii migrate --migrationPath=@vendor/zabachok/yii2-burivuh/migrations
 ```
 
 
@@ -33,31 +33,31 @@ Add to you config file:
 ```php
 'modules' => [
     ...
-    'burivuh'     => [
-        'class'     => 'zabachok\burivuh\Module',
+    'burivuh' => [
+        'class' => zabachok\burivuh\Module::class,
     ],
 ]
 ```
 and to bootstrapping:
 
 ```php
-'bootstrap'    => [..., 'burivuh'],
+'bootstrap' => [..., zabachok\burivuh\Bootstrap::class],
 ```
 
 ## Options
 
 1. `db` - name of database component: 
 ```php
-'burivuh'     => [
-        'class'     => 'zabachok\burivuh\Module',
+'burivuh' => [
+        'class' => zabachok\burivuh\Module::class,
         'db'=>'db',
     ...
     ],
 ```
 1. `usernameCallback` - anonymous function for generate username:
 ```php
-'burivuh'     => [
-        'class'     => 'zabachok\burivuh\Module',
+'burivuh' => [
+        'class' => zabachok\burivuh\Module::class,
         'usernameCallback'	=>function($user_id)
             {
                 $user = \common\models\user\User::findIdentity($user_id);
@@ -68,8 +68,8 @@ and to bootstrapping:
 ```
 1. `route` - you can use custom route to this module. For example:
 ```php
-'burivuh'     => [
-        'class'     => 'zabachok\burivuh\Module',
+'burivuh' => [
+        'class' => zabachok\burivuh\Module::class,
         'route' => 'wiki',
     ...
     ],
@@ -77,14 +77,17 @@ and to bootstrapping:
 It will be generate links like `example.com/wiki/doc/mydoc`
 1. `accessRules` - this option configuring [AccessControl::rules](http://www.yiiframework.com/doc-2.0/yii-filters-accesscontrol.html) component. For example:
 ```php
-'burivuh'     => [
-        'class'     => 'zabachok\burivuh\Module',
-        'accessRules' => [
+'burivuh' => [
+        'class' => zabachok\burivuh\Module::class,
+        'as access' => [
+            'class' => yii\filters\AccessControl::className(),
+            'rules' => [
                 [
                     'allow' => true,
                     'roles' => ['?'],
                 ],
             ],
+        ],
     ...
     ],
 ```
@@ -110,29 +113,3 @@ Tab - four spaces
 
 **Text formatting**
 Ctrl + h - make this line a header
-
-## Screenshots
-
-Directory
-
-![Directory](https://zabachok.net/data/files/burivuh/root.jpg)
-
-View document
-
-![View document](https://zabachok.net/data/files/burivuh/view.jpg)
-
-Edit document
-
-![Edit document](https://zabachok.net/data/files/burivuh/edit.jpg)
-
-Delete document
-
-![](https://zabachok.net/data/files/burivuh/delete.jpg)
-
-History
-
-![](https://zabachok.net/data/files/burivuh/history.jpg)
-
-Diff of document
-
-![](https://zabachok.net/data/files/burivuh/diff.jpg)

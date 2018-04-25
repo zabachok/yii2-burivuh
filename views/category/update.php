@@ -4,20 +4,19 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 
-$this->title = Yii::t('burivuh', 'Update category {title}', ['title'=>$model->title]);
+$this->title = Yii::t('burivuh', 'Update category {title}', ['title' => $model->title]);
 
 $breadcrumbs = [
-        ['label'=>$model->title, 'url'=>$model->url],
+    ['label' => $model->title, 'url' => $model->url],
     [
         'label' => Yii::t('burivuh', 'Update category'),
     ],
 ];
-if (!is_null($parent))
-{
+if (!is_null($parent)) {
     $breadcrumbs = array_merge($parent->getBreadcrumbs(1), $breadcrumbs);
 }
 echo Breadcrumbs::widget([
-    'links'    => $breadcrumbs,
+    'links' => $breadcrumbs,
     'homeLink' => ['label' => Yii::t('burivuh', 'Root'), 'url' => ['/burivuh/category/index']],
 ]);
 ?>

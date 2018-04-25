@@ -10,6 +10,7 @@ class Home
     public $created_at = '2016-01-01 12:00:00';
 
     public $breadcrumbs = [];
+
     public function getBreadcrumbs($iterator)
     {
         return [];

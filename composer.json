@@ -1,28 +1,28 @@
 {
-  "name": "zabachok/yii2-burivuh",
-  "description": "Simple notepad with markdown editor for yii2",
-  "type": "yii2-extension",
-  "keywords": [
-    "documentation",
-    "markdown",
-    "module",
-    "notepad"
-  ],
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Daniil Romanov",
-      "email": "zabachok@zabachok.net"
+    "name": "zabachok/yii2-burivuh",
+    "description": "Simple notepad with markdown editor for yii2",
+    "type": "yii2-extension",
+    "keywords": [
+        "documentation",
+        "markdown",
+        "module",
+        "notepad"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniil Romanov",
+            "email": "zabachok@zabachok.net"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*",
+        "yiisoft/yii2-bootstrap": "*",
+        "yetanotherape/diff-match-patch": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "zabachok\\burivuh\\": ""
+        }
     }
-  ],
-  "require": {
-    "yiisoft/yii2": "*",
-    "yiisoft/yii2-bootstrap": "*",
-    "yetanotherape/diff-match-patch": "*"
-  },
-  "autoload": {
-    "psr-4": {
-      "zabachok\\burivuh\\": ""
-    }
-  }
 }

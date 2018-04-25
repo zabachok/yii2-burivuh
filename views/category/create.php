@@ -11,12 +11,11 @@ $breadcrumbs = [
         'label' => Yii::t('burivuh', 'Create category'),
     ],
 ];
-if (!is_null($parent))
-{
+if (!is_null($parent)) {
     $breadcrumbs = array_merge($parent->getBreadcrumbs(1), $breadcrumbs);
 }
 echo Breadcrumbs::widget([
-    'links'    => $breadcrumbs,
+    'links' => $breadcrumbs,
     'homeLink' => ['label' => Yii::t('burivuh', 'Root'), 'url' => ['/burivuh/category/index']],
 ]);
 ?>

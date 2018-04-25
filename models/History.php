@@ -2,10 +2,9 @@
 
 namespace zabachok\burivuh\models;
 
-use Yii;
+use DiffMatchPatch\DiffMatchPatch;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
-use DiffMatchPatch\DiffMatchPatch;
 
 /**
  * This is the model class for table "burivuh_history".
@@ -26,6 +25,19 @@ class History extends \yii\db\ActiveRecord
         return 'burivuh_history';
     }
 
+    public static function findByDocument($document_id)
+    {
+        return self::find()
+            ->where(['document_id' => $document_id])
+            ->orderBy('created_at DESC')
+            ->one();
+    }
+
+    public static function getDB()
+    {
+        return \Yii::$app->{\Yii::$app->getModule('burivuh')->db};
+    }
+
     /**
      * @inheritdoc
      */
@@ -37,7 +49,7 @@ class History extends \yii\db\ActiveRecord
             [['created_at'], 'safe'],
             [['content', 'diff'], 'string'],
             [['title'], 'string', 'max' => 255],
-            ['diff', 'default', 'value'=>'0:0'],
+            ['diff', 'default', 'value' => '0:0'],
         ];
     }
 
@@ -52,10 +64,9 @@ class History extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'content' => 'Content',
             'title' => 'Title',
-            'user_id'=>'User id',
+            'user_id' => 'User id',
         ];
     }
-
 
     public function behaviors()
     {
@@ -69,31 +80,21 @@ class History extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function findByDocument($document_id)
-    {
-        return self::find()
-            ->where(['document_id'=>$document_id])
-            ->orderBy('created_at DESC')
-            ->one();
-    }
-
     public function renderDiff($lastEdit)
     {
         $dmp = new DiffMatchPatch();
         $diffs = $dmp->diff_main($this->content, $lastEdit->content, false);
         $added = 0;
         $deleted = 0;
-        foreach ($diffs as $diff)
-        {
+        foreach ($diffs as $diff) {
             $length = mb_strlen($diff[1], 'utf-8');
-            if($diff[0] == 1) $added += $length;
-            if($diff[0] == -1) $deleted += $length;
+            if ($diff[0] == 1) {
+                $added += $length;
+            }
+            if ($diff[0] == -1) {
+                $deleted += $length;
+            }
         }
         $this->diff = $added . ':' . $deleted;
-    }
-
-    public static function getDB()
-    {
-        return \Yii::$app->{\Yii::$app->getModule('burivuh')->db};
     }
 }

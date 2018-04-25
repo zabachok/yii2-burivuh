@@ -2,31 +2,36 @@
 
 namespace zabachok\burivuh;
 
-use Yii;
-use yii\base\BootstrapInterface;
-
 class Module extends \yii\base\Module
 {
-
+    /**
+     * @inheritdoc
+     */
     public $controllerNamespace = 'zabachok\burivuh\controllers';
-    public $defaultController   = 'category';
 
-    public $db          = 'db';
+    /**
+     * @inheritdoc
+     */
+    public $defaultController = 'category';
+
+    /**
+     * @var string DB connection component name
+     */
+    public $db = 'db';
+
     public $usernameCallback;
-    public $route       = 'burivuh';
-    public $accessRules = [
-        [
-            'allow' => true,
-            'roles' => ['@'],
-        ],
-    ];
+
+    /**
+     * @var string Routing prefix
+     */
+    public $route = 'burivuh';
 
     public function init()
     {
-        if (is_null($this->usernameCallback))
-        {
-            $this->usernameCallback = function ($user_id) { return $user_id; };
+        if (is_null($this->usernameCallback)) {
+            $this->usernameCallback = function ($user_id) {
+                return $user_id;
+            };
         }
     }
-
 }

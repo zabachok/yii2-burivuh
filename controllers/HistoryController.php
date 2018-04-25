@@ -3,11 +3,11 @@
 namespace zabachok\burivuh\controllers;
 
 
+use DiffMatchPatch\DiffMatchPatch;
 use Yii;
 use zabachok\burivuh\models\Document;
 use zabachok\burivuh\models\Folder;
 use zabachok\burivuh\models\History;
-use DiffMatchPatch\DiffMatchPatch;
 
 class HistoryController extends Controller
 {
@@ -16,8 +16,7 @@ class HistoryController extends Controller
     public function actionIndex($title)
     {
         $model = Document::find()->where(['title' => $title])->one();
-        if (is_null($model))
-        {
+        if (is_null($model)) {
             throw new \yii\web\HttpException(404, Yii::t('burivuh', 'The document does not exist'));
         }
         $list = History::find()
@@ -28,15 +27,14 @@ class HistoryController extends Controller
 
         return $this->render('history', [
             'model' => $model,
-            'list'  => $list,
+            'list' => $list,
         ]);
     }
 
     public function actionDiff($document_history_id)
     {
         $model = History::findOne($document_history_id);
-        if (is_null($model))
-        {
+        if (is_null($model)) {
             throw new \yii\web\HttpException(404, Yii::t('burivuh', 'Record in the history does not exist'));
         }
         $document = Document::findOne($model->document_id);
@@ -48,17 +46,16 @@ class HistoryController extends Controller
             ->one();
 
         $diffs = [];
-        if (!is_null($previous))
-        {
+        if (!is_null($previous)) {
             $dmp = new DiffMatchPatch();
             $diffs = $dmp->diff_main($previous->content, $model->content, false);
         }
 
         return $this->render('diff', [
             'document' => $document,
-            'model'    => $model,
+            'model' => $model,
             'previous' => $previous,
-            'diffs'    => $diffs,
+            'diffs' => $diffs,
         ]);
     }
 }

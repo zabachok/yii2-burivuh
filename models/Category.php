@@ -2,10 +2,8 @@
 
 namespace zabachok\burivuh\models;
 
-use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
-use yii\helpers\Html;
 use yii\helpers\Url;
 
 /**
@@ -23,6 +21,11 @@ class Category extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'burivuh_category';
+    }
+
+    public static function getDB()
+    {
+        return \Yii::$app->{\Yii::$app->getModule('burivuh')->db};
     }
 
     /**
@@ -46,8 +49,8 @@ class Category extends \yii\db\ActiveRecord
     {
         return [
             'category_id' => 'Category ID',
-            'title'       => 'Title',
-            'created_at'  => 'Created At',
+            'title' => 'Title',
+            'created_at' => 'Created At',
         ];
     }
 
@@ -55,10 +58,10 @@ class Category extends \yii\db\ActiveRecord
     {
         return [
             [
-                'class'              => TimestampBehavior::className(),
+                'class' => TimestampBehavior::className(),
                 'createdAtAttribute' => 'created_at',
                 'updatedAtAttribute' => false,
-                'value'              => new Expression('NOW()'),
+                'value' => new Expression('NOW()'),
             ],
         ];
     }
@@ -66,16 +69,13 @@ class Category extends \yii\db\ActiveRecord
     public function getBreadcrumbs($iterator = 0)
     {
         $breadcrumbs = ['label' => $this->title,];
-        if ($iterator != 0)
-        {
+        if ($iterator != 0) {
             $breadcrumbs['url'] = $this->url;
         }
 
-        if ($this->parent_id == 0)
-        {
+        if ($this->parent_id == 0) {
             return [$breadcrumbs];
-        } else
-        {
+        } else {
             return array_merge($this->parent->getBreadcrumbs(++$iterator), [$breadcrumbs]);
         }
     }
@@ -83,11 +83,6 @@ class Category extends \yii\db\ActiveRecord
     public function getParent()
     {
         return $this->hasOne(Category::className(), ['category_id' => 'parent_id']);
-    }
-
-    public static function getDB()
-    {
-        return \Yii::$app->{\Yii::$app->getModule('burivuh')->db};
     }
 
     public function getChildrenCategory()
@@ -105,19 +100,17 @@ class Category extends \yii\db\ActiveRecord
         return Url::toRoute([
             '/burivuh/category/index',
             'category_id' => $this->category_id,
-            'title'       => $this->title,
+            'title' => $this->title,
         ]);
     }
 
     public function beforeDelete()
     {
         parent::beforeDelete();
-        foreach ($this->childrenCategory as $model)
-        {
+        foreach ($this->childrenCategory as $model) {
             $model->delete();
         }
-        foreach ($this->documents as $model)
-        {
+        foreach ($this->documents as $model) {
             $model->delete();
         }
 

@@ -5,7 +5,6 @@ namespace zabachok\burivuh\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
-use zabachok\burivuh\models\History;
 use yii\helpers\Url;
 
 /**
@@ -28,6 +27,11 @@ class Document extends \yii\db\ActiveRecord
         return 'burivuh_document';
     }
 
+    public static function getDB()
+    {
+        return \Yii::$app->{\Yii::$app->getModule('burivuh')->db};
+    }
+
     /**
      * @inheritdoc
      */
@@ -38,7 +42,7 @@ class Document extends \yii\db\ActiveRecord
             [['content'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['title'], 'string', 'max' => 255],
-            ['title', 'match', 'pattern'=>'|[\w\d\-\ ]|u'],
+            ['title', 'match', 'pattern' => '|[\w\d\-\ ]|u'],
         ];
     }
 
@@ -75,32 +79,31 @@ class Document extends \yii\db\ActiveRecord
 
     public function getCategory()
     {
-        return $this->hasOne(Category::className(), ['category_id'=>'category_id']);
+        return $this->hasOne(Category::className(), ['category_id' => 'category_id']);
     }
 
     public function getLastEdit()
     {
-        return $this->hasOne(History::className(), ['document_id'=>'document_id'])
+        return $this->hasOne(History::className(), ['document_id' => 'document_id'])
             ->orderBy('created_at DESC');
     }
 
     public function getHistory()
     {
-        return $this->hasMany(History::className(), ['document_id'=>'document_id'])
+        return $this->hasMany(History::className(), ['document_id' => 'document_id'])
             ->orderBy('created_at DESC');
     }
 
     public function getBreadcrumbs($iterator = 0)
     {
-        $breadcrumbs = ['label'=>$this->title,];
-        if($iterator != 0) $breadcrumbs['url'] = $this->url;
-        if($this->category_id == 0) return [$breadcrumbs];
+        $breadcrumbs = ['label' => $this->title,];
+        if ($iterator != 0) {
+            $breadcrumbs['url'] = $this->url;
+        }
+        if ($this->category_id == 0) {
+            return [$breadcrumbs];
+        }
         return array_merge($this->category->getBreadcrumbs(++$iterator), [$breadcrumbs]);
-    }
-
-    public static function getDB()
-    {
-        return \Yii::$app->{\Yii::$app->getModule('burivuh')->db};
     }
 
     public function getUrl()
@@ -108,14 +111,16 @@ class Document extends \yii\db\ActiveRecord
         return Url::toRoute([
             '/burivuh/document/view',
             'document_id' => $this->document_id,
-            'title'       => $this->title,
+            'title' => $this->title,
         ]);
     }
 
     public function afterDelete()
     {
         parent::afterDelete();
-        foreach($this->history as $model) $model->delete();
+        foreach ($this->history as $model) {
+            $model->delete();
+        }
         return true;
     }
 }

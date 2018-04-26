@@ -1,8 +1,14 @@
 <?php
 
 use yii\helpers\Html;
+use yii\web\View;
 use yii\widgets\Breadcrumbs;
 use zabachok\burivuh\assets\BurivuhAsset;
+use zabachok\burivuh\models\Category;
+
+/** @var View $this */
+/** @var Category $category */
+/** @var string $readme */
 
 BurivuhAsset::register($this);
 $this->registerJs('burivuh.index.init();');
@@ -45,7 +51,7 @@ echo Breadcrumbs::widget([
                 ?>
                 <tr class="<?= $key == 0 ? 'active' : '' ?>">
                     <td>
-                        <i class="glyphicon glyphicon-folder-close"></i>
+                        <i class="glyphicon glyphicon-folder-close"></i>&nbsp;
                         <?= Html::a($category->title, $category->url, [
                             'class' => 'burivuh-line-link',
                         ]);
@@ -60,7 +66,7 @@ echo Breadcrumbs::widget([
                 ?>
                 <tr class="<?= $key == 0 ? 'active' : '' ?>">
                     <td>
-                        <i class="glyphicon glyphicon-file"></i>
+                        <i class="glyphicon glyphicon-file"></i>&nbsp;
                         <?= Html::a($document->title, $document->url, [
                             'class' => 'burivuh-line-link',
                         ]); ?>
